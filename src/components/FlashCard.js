@@ -34,7 +34,7 @@ class FlashCard extends React.Component {
   }
 
   componentDidMount(){
-    if (this.props.question.category){
+    if (this.props.question){
       this.setState({
         category: this.props.question.category,
         question: this.props.question,
@@ -61,7 +61,7 @@ class FlashCard extends React.Component {
             {this.state.category ? this.state.category.title.toUpperCase() : "MYSTERY" }
           </Typography>
           <Typography variant="h5" component="h2">
-            {this.state.content ? this.state.content : "MYSTERY QuESTION"}
+            {this.state.content ? this.state.content : "MYSTERY QUESTION"}
           </Typography>
         </CardContent>
         <CardActions style={{display: this.state.isToggled && "none"}}>

@@ -5,6 +5,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import FlashCard from "./components/FlashCard";
+import CategoryFlashCard from "./components/CategoryFlashCard";
 import Container from '@material-ui/core/Container';
 import Chip from '@material-ui/core/Chip';
 import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
@@ -22,23 +23,34 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      loading: false,
-      questionData: {},
+      loading: true,
+      questionsData: {},
       score: 0
     }
   };
 
   componentDidMount() {
-    this.setState({loading: true})
-    this.fetchQuestion()
+    this.fetchQuestionsData()
   };
 
-  fetchQuestion() {
-    fetch("http://jservice.io/api/random")
+  // fetchQuestion() {
+  //   fetch("http://jservice.io/api/random")
+  //     .then(response => response.json())
+  //     .then(data => {
+  //       this.setState({
+  //         questionData: data[0],
+  //         loading: false
+  //       })
+  //     })
+  // }
+
+  fetchQuestionsData() {
+    // fetch 6 categories
+    fetch("http://jservice.io/api/category?id=11508")
       .then(response => response.json())
       .then(data => {
         this.setState({
-          questionData: data[0],
+          questionsData: data,
           loading: false
         })
       })
@@ -68,7 +80,10 @@ class App extends React.Component {
               </Typography>
             </div>
           ) : (
-            <FlashCard question={this.state.questionData} updateScore={this.updateScore.bind(this)}/>
+            <div>
+              <CategoryFlashCard category={this.state.questionsData.title}/>
+              {this.state.questionsData.clues.map(question => <FlashCard question={question} updateScore={this.updateScore.bind(this)}/>)}
+            </div>
           )}
         </Paper>
       </Container>
